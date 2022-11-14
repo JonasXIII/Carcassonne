@@ -25,16 +25,17 @@ public class Carcassonne {
     }
 
 
-    public void makeRandMove(){
+    public Board makeRandMove(){
         Tile tile = pile.draw();
         ArrayList<Move> moves = board.getPossibleMoves(tile);
         Collections.shuffle(moves);
         Move moveToMake = moves.remove(0);
         //System.out.println("Chose move with rotation: " + moveToMake.rotation);
         board.makeMove(moveToMake);
+        return board;
     }
 
-    public void makeCloseMove(){
+    public Board makeCloseMove(){
         Tile tile = pile.draw();
         ArrayList<Move> moves = board.getPossibleMoves(tile);
         Move moveToMake = null;
@@ -49,6 +50,22 @@ public class Carcassonne {
         if(moveToMake!=null){
             board.makeMove(moveToMake);
         }
-        
+        return board;
+    }
+
+    public Board[] getPossibleBoards(){
+        Tile tile = pile.draw();
+        ArrayList<Move> moves = board.getPossibleMoves(tile);
+        Collections.shuffle(moves);
+        Board[] output = new Board[moves.size()];
+        for(int i = 0; i< moves.size(); i++){
+            
+            output[i] = board.clone();
+            output[i].makeMove(moves.get(i));
+            output[i].board[moves.get(i).position.x][moves.get(i).position.y].highlighted=true;
+        }
+
+
+        return output;
     }
 }

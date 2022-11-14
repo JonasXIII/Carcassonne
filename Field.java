@@ -3,6 +3,7 @@ public class Field {
     int rotation;
     Field[] neighbors = new Field[4];
     boolean set = false;
+    boolean highlighted = false;
     public int x,y;
     
     public Field(int x, int y){
@@ -24,5 +25,15 @@ public class Field {
 
     public boolean isSet(){
         return set;
+    }
+
+    public Field clone(){
+        Field clonedField = new Field(x,y);
+        clonedField.tile = tile;
+        clonedField.rotation = rotation;
+        clonedField.setNeighbors(neighbors[0], neighbors[1], neighbors[2], neighbors[3]);
+        clonedField.set = set;
+        clonedField.highlighted = highlighted;
+        return clonedField;
     }
 }

@@ -25,6 +25,23 @@ public class Board {
         minY = 50;
         maxY = 50;
     }
+    public Board clone(){  
+        Board cloneBoard = new Board();
+        cloneBoard.minX = minX;
+        cloneBoard.maxX = maxX;
+        cloneBoard.minY = minY;
+        cloneBoard.maxY = maxY;
+        for(int i = 0; i < 100; i++){
+            for(int j = 0; j<100;j++){
+                cloneBoard.board[i][j] = board[i][j].clone();
+            }
+        }
+        for(Field field:available){
+            cloneBoard.available.add(field.clone());
+        }
+        return cloneBoard;
+    }
+    
 
     public void addNeighborsToAvailable(Field middle){
         for(int i = 0; i < 4; i++){

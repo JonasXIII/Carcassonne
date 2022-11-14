@@ -2,8 +2,10 @@ public class Tile {
     public enum Side{f,r,c};
 
     public char ID;
-    public Side[] sides;
-    public boolean[] connections;
+    public Side[] sides;//each side can be f=Field, r=road, c=city
+    public boolean[] connections;   //an array listing connections of each side that is road or city to another side 1
+                                    //0,1,2,3,4,5 are   top/right    top/bot     top/left   right/bot    right/left     bot/left
+    public boolean[] lawns;
     public boolean shield;
     public boolean abby;
 
