@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.*;
 
 public class Board {
     Field[][] board = new Field[100][100];
-    ArrayList<Field> available = new ArrayList<Field>();
-    public int minX,maxX,minY,maxY;
+    Set<Field> available = new HashSet<Field>();
+    public int minX=50,maxX=50,minY=50,maxY=50;
+    ArrayList<Field> highlighted = new ArrayList<Field>();
 
     public Board(){
         for(int i = 0; i < 100; i++){
@@ -18,12 +20,8 @@ public class Board {
                 board[i][j].setNeighbors(board[i-1][j], board[i][j+1], board[i+1][j], board[i][j-1]);
             }
         }
-        board[50][50].set(new Tile('D'), 0);
-        addNeighborsToAvailable(board[50][50]);
-        minX = 50;
-        maxX = 50;
-        minY = 50;
-        maxY = 50;
+        Move initialMove = new Move(new Tile('D'), board[50][50], 0);
+        makeMove(initialMove);
     }
     public Board clone(){  
         Board cloneBoard = new Board();
@@ -39,14 +37,18 @@ public class Board {
         for(Field field:available){
             cloneBoard.available.add(field.clone());
         }
+        for(Field field:highlighted){
+            cloneBoard.highlighted.add(field.clone());
+        }
         return cloneBoard;
     }
     
 
     public void addNeighborsToAvailable(Field middle){
         for(int i = 0; i < 4; i++){
-            if(!middle.neighbors[i].isSet() && !available.contains(middle.neighbors[i])){
+            if(!middle.neighbors[i].isSet()){
                 available.add(middle.neighbors[i]);
+                System.out.println("Adding " + middle.neighbors[i].x + "," + middle.neighbors[i].y);
             }
         }
     }
@@ -104,5 +106,6 @@ public class Board {
         removeFromAvailable(move.position);
 
         move.position.set(move.tile, move.rotation);
+        System.out.println("total available: " + available.size());
     }
 }

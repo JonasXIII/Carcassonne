@@ -56,16 +56,22 @@ public class Carcassonne {
     public Board[] getPossibleBoards(){
         Tile tile = pile.draw();
         ArrayList<Move> moves = board.getPossibleMoves(tile);
-        Collections.shuffle(moves);
+        //Collections.shuffle(moves);
         Board[] output = new Board[moves.size()];
         for(int i = 0; i< moves.size(); i++){
             
             output[i] = board.clone();
             output[i].makeMove(moves.get(i));
-            output[i].board[moves.get(i).position.x][moves.get(i).position.y].highlighted=true;
+            output[i].highlighted.add(output[i].board[moves.get(i).position.y][moves.get(i).position.x]);
+            // System.out.println("Adding a board!" + output[i].available.size());
+            // for(Field field: output[i].available){
+            //     System.out.println(field.x + " " + field.y);
+            // }
         }
 
 
         return output;
     }
+
+
 }

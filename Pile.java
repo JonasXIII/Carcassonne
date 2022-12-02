@@ -88,4 +88,10 @@ public class Pile {
     public Tile draw(){
         return pile.remove(0);
     }
+    public boolean empty(){
+        if(pile.size()==0){
+            return true;
+        }
+        return false;
+    }
 }

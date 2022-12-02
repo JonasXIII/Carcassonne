@@ -1,5 +1,5 @@
 Board board;
-Board storeBoard;
+SelectGame selGame;
 Carcassonne game;
 PImage[] tiles = new PImage[24];
 int GAMESIZE = 71;
@@ -26,7 +26,7 @@ void setup() {
 
     
     
-    gameType(1);
+    gameType(2);
     
     
 }
@@ -47,7 +47,7 @@ void draw() {
                 rotate(radians(90*(field.rotation)));
                 //System.out.println("Printing ID: " + (int)field.tile.ID);
                 image(tiles[field.tile.ID -'A'], 0, 0, TILESIZE, TILESIZE);
-                if(field.highlighted){
+                if(board.highlighted.contains(field)){
                     stroke(color(255,0,0));
                     strokeWeight(2);
                     line(-TILESIZE/2, -TILESIZE/2, TILESIZE/2,-TILESIZE/2); 
@@ -84,6 +84,9 @@ public void gameType(int type){
     }
     else if(type==3){
         SELECTGAME = true;
+        selGame = new SelectGame(board);
+        board = selGame.suplyOptions(game.getPossibleBoards());
+        game.board = board;
         redraw();
     }
 }
@@ -92,9 +95,18 @@ public void gameType(int type){
 void keyPressed(){
     if(SELECTGAME){
         if(keyCode==LEFT){
-
+            board = selGame.getLast();
+            game.board = board;
+            redraw();
         } else if(keyCode == RIGHT){
-
+            board = selGame.getNext();
+            game.board = board;
+            redraw();
+        } else if(key == ENTER){
+            board = selGame.select();
+            game.board = board;
+            selGame.suplyOptions(game.getPossibleBoards());
+            redraw();
         }
     }
 }
